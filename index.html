@@ -104,27 +104,35 @@
   <div id="dropdown-container">
     <label for="machine-dropdown" id="dropdown-label">Select Machine:</label>
     <select id="machine-dropdown">
-      <option value="Machine_001">Machine_001</option>
+      <option value="Machine_001" selected>Machine_001</option>
       <option value="Machine_002">Machine_002</option>
       <option value="Machine_003">Machine_003</option>
       <option value="Machine_004">Machine_004</option>
       <option value="Machine_005">Machine_005</option>
       <option value="Machine_006">Machine_006</option>
-      <option value="Machine_007" selected>Machine_007</option>
+      <option value="Machine_007">Machine_007</option>
       <option value="Machine_008">Machine_008</option>
       <option value="Machine_009">Machine_009</option>
       <option value="Machine_010">Machine_010</option>
     </select>
   </div>
   <div id="container">
-    <input type="text" id="machine-input" value="Machine_007" style="display:none;" />
+    <input type="text" id="machine-input" value="Machine_001" style="display:none;" />
     <div id="aisquared-output"></div>
   </div>
 
   <script src="https://api.squared.ai/enterprise/api/v1/data_apps_runner.js"></script>
   <script>
     function runDataAppWithMachine(machineId) {
-      const output = document.getElementById('aisquared-output');
+      // Remove and recreate the output div to ensure a fresh target for the SDK
+      const container = document.getElementById('container');
+      let output = document.getElementById('aisquared-output');
+      if (output) {
+        output.remove();
+      }
+      output = document.createElement('div');
+      output.id = 'aisquared-output';
+      container.appendChild(output);
       output.textContent = 'Loading...';
       if (window.DataApp) {
         const dataApp = new window.DataApp({
