@@ -36,6 +36,8 @@
       overflow: hidden;
       background: #fff;
       z-index: 1000;
+      padding-top: 16px;
+      box-sizing: border-box;
     }
     #aisquared-output iframe {
       position: absolute;
@@ -124,15 +126,15 @@
   <script src="https://api.squared.ai/enterprise/api/v1/data_apps_runner.js"></script>
   <script>
     function runDataAppWithMachine(machineId) {
-      // Remove and recreate the output div to ensure a fresh target for the SDK
       const container = document.getElementById('container');
-      let output = document.getElementById('aisquared-output');
-      if (output) {
-        output.remove();
-      }
-      output = document.createElement('div');
+      let oldOutput = document.getElementById('aisquared-output');
+      if (oldOutput) oldOutput.remove();
+
+      // Create a new output div
+      const output = document.createElement('div');
       output.id = 'aisquared-output';
       container.appendChild(output);
+
       output.textContent = 'Loading...';
       if (window.DataApp) {
         const dataApp = new window.DataApp({
@@ -142,9 +144,6 @@
         dataApp.runDataApp({ input: { machineId } })
           .then(result => {
             output.textContent = '';
-            // If the SDK renders to the DOM, this may be unnecessary
-            // Otherwise, show the result as JSON for debugging
-            // output.textContent = JSON.stringify(result, null, 2);
           })
           .catch(err => {
             output.textContent = 'Error: ' + err;
