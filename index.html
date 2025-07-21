@@ -124,43 +124,6 @@
   </div>
 
   <script src="https://api.squared.ai/enterprise/api/v1/data_apps_runner.js"></script>
-  <script>
-    function runDataAppWithMachine(machineId) {
-      const container = document.getElementById('container');
-      let oldOutput = document.getElementById('aisquared-output');
-      if (oldOutput) oldOutput.remove();
-
-      // Create a new output div
-      const output = document.createElement('div');
-      output.id = 'aisquared-output';
-      container.appendChild(output);
-
-      output.textContent = 'Loading...';
-      if (window.DataApp) {
-        const dataApp = new window.DataApp({
-          dataAppId: '238',
-          dataAppUseCaseId: 'ByYCj2jsssxxAib9uHKU'
-        });
-        dataApp.runDataApp({ input: { machineId } })
-          .then(result => {
-            output.textContent = '';
-          })
-          .catch(err => {
-            output.textContent = 'Error: ' + err;
-          });
-      } else {
-        output.textContent = "AI Squared SDK not loaded.";
-      }
-    }
-    document.getElementById('machine-dropdown').addEventListener('change', function(e) {
-      const machineId = e.target.value;
-      document.getElementById('machine-input').value = machineId;
-      runDataAppWithMachine(machineId);
-    });
-    // On page load, run with default
-    window.addEventListener('DOMContentLoaded', function() {
-      runDataAppWithMachine(document.getElementById('machine-input').value);
-    });
-  </script>
+  <script src="data_apps_runner.js"></script>
 </body>
 </html>
